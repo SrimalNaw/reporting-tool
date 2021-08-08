@@ -16,7 +16,7 @@
                     <div class="row mb-3">
                         <label for="reportType" class="col-sm-3 col-form-label">Select report type</label>
                         <div class="col-sm-8">
-                            <select class="form-select" aria-label="Report Type" id="reportType" name="reportType">
+                            <select class="form-select" aria-label="Report Type" id="reportType" name="reportType" required>
                                 <option value="">-Select Report Type-</option>
                                 <option value="1">Turnover per brand</option>
                                 <option value="2">Turnover per day</option>
