@@ -1,0 +1,24 @@
+.icn-right {
+    float: right;
+}
+
+select, #reportrange {
+    cursor: pointer;
+}
+.btn-export {
+    float: right;
+    margin-top: 4px;
+    margin-bottom: 14px;
+}
+.hide-content {
+    display: none;
+}
+.report-title {
+    text-align: center;
+}
+.report-head {
+    text-align: center;
+}
+.icon-csv {
+    padding-right: 5px;
+}
