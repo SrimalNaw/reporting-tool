@@ -23,13 +23,13 @@ class Reports extends BaseController {
         }
 
         $reportModel = new ReportModel();
-        if($data['reportType'] == '1') {
-            $reportData = $reportModel->getTunoverPerBrandData($data['fromDate'], $data['toDate']);
+        $reportData = $reportModel->getSelectedReportData($data['reportType'], $data['fromDate'], $data['toDate']);
+        if($reportData) {
+            $reportView = parent::getReportTemplate($reportData);
+        } else {
+            $reportView = null;
         }
-        else if($data['reportType'] == '2') {
-            $reportData = $reportModel->getTunoverPerDayData($data['fromDate'], $data['toDate']);
-        }
-        return parent::returnResponse('success', 200, 'Success', $reportData);
+        return parent::returnResponse('success', 200, 'Success', $reportView);
     }
 
 }

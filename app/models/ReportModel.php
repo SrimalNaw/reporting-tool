@@ -3,38 +3,38 @@ require_once(DOC_ROOT.'config/DbConnection.php');
 
 class ReportModel extends DbConnection {
 
-    public function getTunoverPerBrandData($fromDate, $toDate) {
+    public function getSelectedReportData($reportType, $fromDate, $toDate) {
         $conn = parent::connect();
+        $columns = '';
+        $join = '';
+        $order = '';
+        $data = array();
 
-        $query = "SELECT br.name, ROUND(gmv.turnover * 100/121, 2) as total_turnover, gmv.date FROM gmv left join brands br on gmv.brand_id = br.id 
-                    where gmv.date between ? and ? order by gmv.date, br.name";
+        if( $reportType == '1' ) {
+            $columns = 'br.name as `Brand Name`, ROUND(gmv.turnover * 100/121, 2) as `Total Turnover (Excluding VAT)`, DATE(gmv.date) as Date';
+            $join = 'left join brands br on gmv.brand_id = br.id';
+            $order = 'gmv.date, br.name';
+        } else if( $reportType == '2'  ) {
+            $columns = 'DATE(gmv.date) as Date, ROUND(gmv.turnover * 100/121, 2) as `Total Turnover (Excluding VAT)`';
+            $order = 'gmv.date';
+        }
 
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $fromDate, $toDate);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $query = "SELECT ". $columns ." FROM gmv ". $join ." where gmv.date between ? and ? order by ". $order ." ";
+        
+        if($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("ss", $fromDate, $toDate);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        $stmt->close();
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+
+            $stmt->close();
+        } else {
+            die('Error: ' . htmlspecialchars($conn->error));
+        }
         parent::closeConnection();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getTunoverPerDayData($fromDate, $toDate) {
-        $conn = parent::connect();
-
-        $query = "SELECT date, ROUND(gmv.turnover * 100/121, 2) as total_turnover FROM reporting_tool.gmv 
-                    where gmv.date between ? and ? order by gmv.date";
-
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $fromDate, $toDate);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $stmt->close();
-        parent::closeConnection();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $data;
     }
 
 

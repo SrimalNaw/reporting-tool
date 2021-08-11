@@ -28,26 +28,15 @@ $(function() {
 			contentType: false,
 	        success: function(data){
 	        	if(data.status_code == 200) {
-					var reportType = $('#reportType').val();
 					var reportTitle = $('#reportType option:selected').html();
 					$('.content-report').removeClass('hide-content');
 					$("#report-table tr").remove();
 					$('.report-title').text(reportTitle);
 
-					if(reportType == '1') {
-						$("#report-table thead").append("<tr><th> Brand Name</th><th>Total Turnover (excluding VAT)</th><th>Date</th></tr>");
-						$.each(data.data, function(i, value) {
-							$("#report-table tbody").append("<tr><td>" + value.name + "</td><td>" + value.total_turnover + "</td><td>" + value.date +"</td></tr>");
-						});
-					}
-					else if(reportType == '2') {
-						$("#report-table thead").append("<tr><th> Date</th><th>Total Turnover (excluding VAT)</th></tr>");
-						$.each(data.data, function(i, value) {
-							$("#report-table tbody").append("<tr><td>" + value.date + "</td><td>" + value.total_turnover + "</td></tr>");
-						});
-					}
+					$('#report-table').html(data.data);
 
-					if(data.data.length == 0) {
+					if(data.data == null) {
+						$('.content-report').addClass('hide-content');
 						$(".content-no-data").removeClass('hide-content');
 					}
 					

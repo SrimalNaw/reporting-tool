@@ -54,14 +54,11 @@
                 </div>
             </div>
             <table class="table table-hover table-bordered" id="report-table">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
             </table>
-            <div class="row justify-content-center">
-                <div class="col-4 content-no-data hide-content"> No Data Available.. </div>
-            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-4 content-no-data hide-content"> No Data Available.. </div>
         </div>
 
     </div>

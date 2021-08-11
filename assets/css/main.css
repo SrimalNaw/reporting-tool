@@ -22,3 +22,7 @@ select, #reportrange {
 .icon-csv {
     padding-right: 5px;
 }
+.content-no-data {
+    text-align: center;
+    margin-top: 18px;
+}
